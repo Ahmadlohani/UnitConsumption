@@ -7,6 +7,7 @@ const Switches = ({
 	data,
 	handleChange,
 	context,
+	readMode,
 }) => {
 	const IOSSwitch = styled((props) => (
 		<Switch
@@ -77,8 +78,9 @@ const Switches = ({
 			<FormControlLabel
 				control={<IOSSwitch sx={{ m: 1 }} />}
 				onChange={(e) => handleChange(e, context)}
-				checked={data}
+				checked={data == 0 ? false : true}
 				name={text}
+				disabled={readMode}
 			/>
 		</div>
 	);

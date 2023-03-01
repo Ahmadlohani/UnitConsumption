@@ -1,7 +1,7 @@
 import ResponsiveDrawer from "@/components/Drawer/ResponsiveDrawer";
 import React from "react";
 import Dashboard from "./user/dashboard";
-import Roles from "./user/roles";
+import Roles from "./user/Role/roles";
 
 const Home = () => {
 	return (

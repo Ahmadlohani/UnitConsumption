@@ -2,41 +2,56 @@ import * as React from "react";
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import {
 	AccessibilityNewOutlined,
+	AccountCircleOutlined,
+	ApartmentOutlined,
 	Dashboard,
-	ElectricMeterOutlined,
+	EqualizerOutlined,
+	HouseSidingOutlined,
 	Logout,
-	PersonAddAlt1Outlined,
-	Receipt,
+	PersonOutlineOutlined,
+	ReceiptOutlined,
 } from "@mui/icons-material";
 import { colors } from "../color";
 import Image from "next/image";
 import Link from "next/link";
+import { AuthContext } from "@/context/AuthContext";
+import { useRouter } from "next/router";
 const drawerWidth = 240;
 
 function ResponsiveDrawer(props) {
+	const { setState, setPermissions } =
+		React.useContext(AuthContext);
+	const route = useRouter();
 	const { window } = props;
 	const [mobileOpen, setMobileOpen] = React.useState(false);
 
 	const handleDrawerToggle = () => {
 		setMobileOpen(!mobileOpen);
 	};
-
+	const handleLogOut = async () => {
+		if (window === undefined) {
+			alert("Ohh sheet");
+			return;
+		}
+		// window.localStorage.removeItem("auth");
+		// window.localStorage.removeItem("permissions");
+		// setState(null);
+		// setPermissions(null);
+		// route.push("/login");
+	};
 	const drawer = (
 		<div>
 			<Image
@@ -44,6 +59,7 @@ function ResponsiveDrawer(props) {
 				width={50}
 				height={50}
 				style={{ borderRadius: 50, padding: 4 }}
+				alt={"Logo"}
 			/>
 			{/* <Toolbar /> */}
 			<Divider />
@@ -51,9 +67,12 @@ function ResponsiveDrawer(props) {
 				{[
 					"Dashboard",
 					"Roles",
+					"Companies",
+					"Floors",
+					"Customers",
 					"Users",
-					"Consumption",
-					"Billing",
+					"Graphs",
+					"Billings",
 				].map((text, index) => (
 					<Link
 						className="link"
@@ -61,18 +80,27 @@ function ResponsiveDrawer(props) {
 							index === 0
 								? "/"
 								: index === 1
-								? "/user/roles"
+								? "/user/Role/view"
 								: index === 2
-								? "/user/users"
+								? "/user/Company/view"
 								: index === 3
-								? "/user/consumption"
-								: "/user/billing"
+								? "/user/Floor/view"
+								: index === 4
+								? "/user/Customer/view"
+								: index === 5
+								? "/user/User/view"
+								: index === 6
+								? "/user/Graph/view"
+								: "/user/Billing/view"
 						}
+						key={text}
 					>
 						<ListItem
 							key={text}
 							disablePadding
-							className={text === props.page && "active"}
+							className={
+								text === props.page ? "active" : ""
+							}
 						>
 							<ListItemButton>
 								<ListItemIcon>
@@ -85,17 +113,34 @@ function ResponsiveDrawer(props) {
 										/>
 									)}
 									{index === 2 && (
-										<PersonAddAlt1Outlined
+										<ApartmentOutlined
 											style={{ color: "white" }}
 										/>
 									)}
 									{index === 3 && (
-										<ElectricMeterOutlined
+										<HouseSidingOutlined
 											style={{ color: "white" }}
 										/>
 									)}
 									{index === 4 && (
-										<Receipt style={{ color: "white" }} />
+										<PersonOutlineOutlined
+											style={{ color: "white" }}
+										/>
+									)}
+									{index === 5 && (
+										<AccountCircleOutlined
+											style={{ color: "white" }}
+										/>
+									)}
+									{index === 6 && (
+										<EqualizerOutlined
+											style={{ color: "white" }}
+										/>
+									)}
+									{index === 7 && (
+										<ReceiptOutlined
+											style={{ color: "white" }}
+										/>
 									)}
 								</ListItemIcon>
 								<ListItemText primary={text} />
@@ -108,7 +153,7 @@ function ResponsiveDrawer(props) {
 			<List>
 				{["Logout"].map((text) => (
 					<ListItem key={text} disablePadding>
-						<ListItemButton>
+						<ListItemButton onClick={handleLogOut}>
 							<ListItemIcon>
 								<Logout style={{ color: "white" }} />
 							</ListItemIcon>

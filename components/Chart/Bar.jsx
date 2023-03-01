@@ -1,25 +1,20 @@
 import React from "react";
 import {
-	LineChart,
-	Line,
+	BarChart,
+	Bar,
 	XAxis,
 	YAxis,
 	CartesianGrid,
 	Tooltip,
 	Legend,
 } from "recharts";
-const Chart = ({ mode, data }) => {
+
+const BarGraph = ({ mode, data }) => {
 	return (
-		<LineChart
+		<BarChart
 			width={700}
 			height={400}
 			data={data}
-			// margin={{
-			// 	top: 5,
-			// 	right: 30,
-			// 	left: 20,
-			// 	bottom: 5,
-			// }}
 			style={{
 				padding: 5,
 			}}
@@ -29,14 +24,9 @@ const Chart = ({ mode, data }) => {
 			<YAxis />
 			<Tooltip />
 			<Legend />
-			<Line
-				type="monotone"
-				dataKey="TotalValue"
-				stroke="#8884d8"
-				activeDot={{ r: 8 }}
-			/>
-		</LineChart>
+			<Bar dataKey="TotalValue" fill="#8884d8" />
+			{/* <Bar dataKey="uv" fill="#82ca9d" /> */}
+		</BarChart>
 	);
 };
-
-export default Chart;
+export default BarGraph;
